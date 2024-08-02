@@ -1,0 +1,10 @@
+transformers
+peft
+datasets
+pandas
+pyarrow
+torch
+python-dotenv
+requests
+beautifulsoup4
+trl
