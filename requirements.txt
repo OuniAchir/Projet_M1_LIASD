@@ -8,3 +8,5 @@ python-dotenv
 requests
 beautifulsoup4
 trl
+gradio
+spaces
