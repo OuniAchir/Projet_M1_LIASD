@@ -7,8 +7,6 @@ def mount_drive():
     drive.mount('/content/gdrive')
 
 def install_requirements():
-    requirements_url = "https://github.com/ruslanmv/Automatic-Fine-Tunning/raw/master/Dependencies/requirements.txt"
-    subprocess.run(['wget', '-q', '-i', requirements_url])
     subprocess.run(['pip', 'install', '-r', 'requirements.txt'])
 
 def reload_environment():
