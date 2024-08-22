@@ -23,3 +23,5 @@ rouge
 scikit-learn
 nltk
 numpy
+os
+zipfile
