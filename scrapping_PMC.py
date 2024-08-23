@@ -53,7 +53,7 @@ def main():
 
     # Combiner les ensembles de données
     combined_df = pd.DataFrame({
-        'Description': "Article ID: " + articles_df['article_id'],
+        'Description': articles_df['title'] + ": " + articles_df['abstract'],
         'Answer': articles_df['content']
     })
 
