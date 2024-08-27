@@ -27,3 +27,4 @@ os
 zipfile
 PyPDF2
 fitz
+PyMuPDF 
