@@ -2,6 +2,8 @@ import requests
 from bs4 import BeautifulSoup
 import os
 import zipfile
+import pandas as pd
+import fitz 
 
 def download_pdf(url, filename):
     response = requests.get(url)
@@ -16,13 +18,22 @@ def download_pdf(url, filename):
 def create_zip_from_pdfs(pdf_files, zip_name='articles.zip'):
     with zipfile.ZipFile(zip_name, 'w') as zipf:
         for pdf in pdf_files:
-            zipf.write(pdf, os.path.basename(pdf))
+            # Check if the PDF file exists before adding it to the zip
+            if os.path.exists(pdf):
+                zipf.write(pdf, os.path.basename(pdf))
     print(f"Created ZIP file: {zip_name}")
 
-def get_arxiv_pdfs(query, max_articles=1200):
-    base_url = "https://arxiv.org/search/?query={query}&searchtype=all&abstracts=show&order=-announced_date_first"
+def extract_text_from_pdf(pdf_path):
+    text = ""
+    with fitz.open(pdf_path) as doc:
+        for page in doc:
+            text += page.get_text()
+    return text.strip()
+
+def get_arxiv_pdfs_and_create_df(query, max_articles=12000):
+    base_url = f"https://arxiv.org/search/?query={query}&searchtype=all&abstracts=show&order=-announced_date_first"
     page = 0
-    pdf_files = []
+    articles_data = []
     articles_downloaded = 0
 
     while articles_downloaded < max_articles:
@@ -45,6 +56,7 @@ def get_arxiv_pdfs(query, max_articles=1200):
                 break
 
             title = article.find('p', class_='title').text.strip()
+            abstract = article.find('span', class_='abstract-full').text.strip() if article.find('span', class_='abstract-full') else "No abstract available."
             pdf_link_tag = article.find('a', href=True, text='pdf')
 
             if pdf_link_tag:
@@ -54,19 +66,32 @@ def get_arxiv_pdfs(query, max_articles=1200):
                 filename = f"{title}.pdf".replace(" ", "_").replace("/", "-")
                 downloaded_pdf = download_pdf(pdf_url, filename)
                 if downloaded_pdf:
-                    pdf_files.append(downloaded_pdf)
+                    pdf_content = extract_text_from_pdf(downloaded_pdf)
+                    description = f"{title}\n  {abstract}"
+                    articles_data.append({'Description': description, 'Answer': pdf_content}) 
                     articles_downloaded += 1
 
         page += 1  # Move to the next page
 
-    return pdf_files
+    # Convert the list of dictionaries to a DataFrame
+    df = pd.DataFrame(articles_data)
+    return df
 
-# Effectuer la recherche et télécharger les PDF
-query = "llama"
-pdf_files = get_arxiv_pdfs(query, max_articles=1200)
+def main():
+    # Perform the search and download PDFs
+    query = "llama"
+    df = get_arxiv_pdfs_and_create_df(query, max_articles=12000)
 
-# Créer un fichier ZIP contenant les PDF téléchargés
-if pdf_files:
-    create_zip_from_pdfs(pdf_files)
-else:
-    print("No PDF files were downloaded.")
+    # Save the DataFrame to a CSV file
+    df.to_csv('arxiv_articles.csv', index=False)
+    print("Dataset saved to 'arxiv_articles.csv'.")
+    print(df.head())
+
+    # Optionally, create a ZIP file with the downloaded PDFs
+    if not df.empty:
+        create_zip_from_pdfs(pdf_files)
+    else:
+        print("No PDF files were downloaded.")
+
+if __name__ == "__main__":
+    main()
