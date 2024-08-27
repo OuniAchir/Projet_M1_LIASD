@@ -11,6 +11,7 @@ exclusion = [
     "Mixtral of Experts",
     "Mistral 7B"
 ]
+
 def download_pdf(url, filename):
     response = requests.get(url)
     if response.status_code == 200:
@@ -62,6 +63,11 @@ def get_arxiv_pdfs_and_create_df(query, max_articles=12000):
                 break
 
             title = article.find('p', class_='title').text.strip()
+
+            if title in excluded_titles:
+                print(f"Article exclu : {title}")
+                continue
+                
             abstract = article.find('span', class_='abstract-full').text.strip() if article.find('span', class_='abstract-full') else "No abstract available."
             pdf_link_tag = article.find('a', href=True, text='pdf')
 
