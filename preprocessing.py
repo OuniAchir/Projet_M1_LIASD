@@ -5,6 +5,8 @@ from nltk.tokenize import word_tokenize
 from nltk.stem import WordNetLemmatizer
 from bs4 import BeautifulSoup
 import re
+from Combined_DataFrame import dataset as df
+from Scrapping_ArXiv import dataset as df
 
 # Download necessary NLTK resources
 nltk.download('punkt')
@@ -29,16 +31,22 @@ def clean_text(text):
 
     return clean_text
 
-# Load the combined DataFrame
-df = pd.read_csv('combined_data.csv')
-
+def create_dataset(df):
+    table = pa.Table.from_pandas(df)
+    dataset = Dataset(table)
+    return dataset
+    
 # Apply the preprocessing function to the 'Description' and 'Answer' columns
 df['Description'] = df['Description'].apply(clean_text)
 df['Answer'] = df['Answer'].apply(clean_text)
 
-# Display the first few rows of the DataFrame to verify the result
-print(df.head())
-
 # Save the preprocessed DataFrame
 df.to_csv('preprocessed_combined_data.csv', index=False)
 print("Preprocessed dataset saved to 'preprocessed_combined_data.csv'.")
+
+df['text'] = '[INST]@Enlighten. ' + df['Description'] + '[/INST]' + df['Answer'] + ''
+df = df.drop(['Description', 'Answer'], axis=1)
+df.head()
+
+# Creates a dataset that is ready to train
+dataset = create_arrow_dataset(df)
