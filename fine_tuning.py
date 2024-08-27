@@ -9,6 +9,7 @@ from datasets import load_dataset
 import torch
 from google.colab import drive
 from setup_model import setup_model_and_tokenizer
+from preprocessing import dataset as dataset
 
 def train_model(model, tokenizer, dataset):
     # Hyperparameter
@@ -86,9 +87,6 @@ def main():
 
     # Configurer le modèle et le tokenizer
     model, tokenizer = setup_model_and_tokenizer(base_model)
-
-    # Charger le dataset
-    dataset = load_dataset('path_to_your_dataset')
 
     # Entraîner le modèle
     trainer = train_model(model, tokenizer, dataset)
