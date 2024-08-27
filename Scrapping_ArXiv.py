@@ -77,7 +77,7 @@ def get_arxiv_pdfs_and_create_df(query, max_articles=12000):
     df = pd.DataFrame(articles_data)
     return df
 
-def main():
+if __name__ == "__main__":
     # Perform the search and download PDFs
     query = "llama"
     df = get_arxiv_pdfs_and_create_df(query, max_articles=12000)
@@ -92,6 +92,3 @@ def main():
         create_zip_from_pdfs(pdf_files)
     else:
         print("No PDF files were downloaded.")
-
-if __name__ == "__main__":
-    main()
