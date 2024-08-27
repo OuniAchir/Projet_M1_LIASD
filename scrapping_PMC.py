@@ -28,8 +28,8 @@ def extract_text_from_xml(xml_content):
     paragraphs = soup.find_all('p')
     text = " ".join([para.get_text() for para in paragraphs])
     return preprocess_text(text)
-
-if __name__ == "__main__":
+    
+def main():
     # Récupérer les articles
     article_ids = search_pmc_articles()
 
@@ -56,7 +56,9 @@ if __name__ == "__main__":
         'Description': articles_df['title'] + ": " + articles_df['abstract'],
         'Answer': articles_df['content']
     })
-
-    # Enregistrer ou utiliser le DataFrame combiné pour l'entraînement
-    combined_df.to_csv('combined_dataset.csv', index=False)
-    print(combined_df.head())  # Vérifier le dataset combiné
+    return combined_df
+    
+if __name__ == "__main__":
+    df_pmc = main()
+    df_pmc.to_csv('combined_dataset.csv', index=False)
+    print(df_pmc.head()) 
