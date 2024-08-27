@@ -155,21 +155,11 @@ def combine_datasets():
     df8 = load_and_process_data8()
 
     df = pd.concat([df1, df2, df3, df4, df5, df6, df7, df8], ignore_index=True)
-
-    # Add the 'text' column
-    df['text'] = '[INST]@Enlighten. ' + df['Description'] + '[/INST]' + df['Answer']
-    df = df.drop(['Description', 'Answer'], axis=1)
-    
     return df
 
 def save_to_csv(df, filename='data.csv'):
     df.to_csv(filename, index=False)
     print(f"Dataset saved to {filename}")
-
-def create_arrow_dataset(df):
-    table = pa.Table.from_pandas(df)
-    dataset = Dataset(table)
-    return dataset
 
 def main():
     df = combine_datasets()
@@ -178,5 +168,4 @@ def main():
 if __name__ == "__main__":
     df_data = main()
     save_to_csv(df_data)
-    arrow_dataset = create_arrow_dataset(df_data)
     print("Dataset prepared for fine-tuning.")
