@@ -171,8 +171,12 @@ def create_arrow_dataset(df):
     dataset = Dataset(table)
     return dataset
 
-if __name__ == "__main__":
+def main():
     df = combine_datasets()
-    save_to_csv(df)
-    arrow_dataset = create_arrow_dataset(df)
+    return df
+
+if __name__ == "__main__":
+    df_data = main()
+    save_to_csv(df_data)
+    arrow_dataset = create_arrow_dataset(df_data)
     print("Dataset prepared for fine-tuning.")
