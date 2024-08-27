@@ -77,11 +77,6 @@ def get_arxiv_pdfs_and_create_df(query, max_articles=12000):
     df = pd.DataFrame(articles_data)
     return df
     
-def create_arrow_dataset(df):
-    table = pa.Table.from_pandas(df)
-    dataset = Dataset(table)
-    return dataset
-    
 def main():
     # Perform the search and download PDFs
     query = "llm"
@@ -92,5 +87,4 @@ if __name__ == "__main__":
     dataset = main()
     dataset.to_csv('arxiv_articles.csv', index=False)
     print("Dataset saved to 'arxiv_articles.csv'.")
-    dataset = create_arrow_dataset(dataset)
     print(dataset.head())
