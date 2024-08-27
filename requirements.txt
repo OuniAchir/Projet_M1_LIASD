@@ -26,3 +26,4 @@ numpy
 os
 zipfile
 PyPDF2
+fitz
