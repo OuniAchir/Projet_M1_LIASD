@@ -29,7 +29,7 @@ def extract_text_from_xml(xml_content):
     text = " ".join([para.get_text() for para in paragraphs])
     return preprocess_text(text)
 
-def main():
+if __name__ == "__main__":
     # Récupérer les articles
     article_ids = search_pmc_articles()
 
@@ -60,6 +60,3 @@ def main():
     # Enregistrer ou utiliser le DataFrame combiné pour l'entraînement
     combined_df.to_csv('combined_dataset.csv', index=False)
     print(combined_df.head())  # Vérifier le dataset combiné
-
-if __name__ == "__main__":
-    main()
