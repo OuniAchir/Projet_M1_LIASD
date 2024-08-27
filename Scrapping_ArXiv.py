@@ -5,6 +5,12 @@ import zipfile
 import pandas as pd
 import fitz 
 
+exclusion = [
+    "LLaMA: Open and Efficient Foundation Language Models",
+    "The Llama 3 Herd of Models",
+    "Mixtral of Experts",
+    "Mistral 7B"
+]
 def download_pdf(url, filename):
     response = requests.get(url)
     if response.status_code == 200:
