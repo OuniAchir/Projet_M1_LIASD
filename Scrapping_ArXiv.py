@@ -77,18 +77,14 @@ def get_arxiv_pdfs_and_create_df(query, max_articles=12000):
     df = pd.DataFrame(articles_data)
     return df
 
-if __name__ == "__main__":
+def main():
     # Perform the search and download PDFs
     query = "llama"
     df = get_arxiv_pdfs_and_create_df(query, max_articles=12000)
-
-    # Save the DataFrame to a CSV file
-    df.to_csv('arxiv_articles.csv', index=False)
+    return df
+        
+if __name__ == "__main__":
+    df_arxiv = main()
+    df_arxiv.to_csv('arxiv_articles.csv', index=False)
     print("Dataset saved to 'arxiv_articles.csv'.")
-    print(df.head())
-
-    # Optionally, create a ZIP file with the downloaded PDFs
-    if not df.empty:
-        create_zip_from_pdfs(pdf_files)
-    else:
-        print("No PDF files were downloaded.")
+    print(df_arxiv.head())
