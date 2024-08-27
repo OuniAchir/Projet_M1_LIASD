@@ -79,7 +79,7 @@ def get_arxiv_pdfs_and_create_df(query, max_articles=12000):
 
 def main():
     # Perform the search and download PDFs
-    query = "llama"
+    query = "llm"
     df = get_arxiv_pdfs_and_create_df(query, max_articles=12000)
     return df
         
