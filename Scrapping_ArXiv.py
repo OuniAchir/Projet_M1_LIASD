@@ -84,7 +84,7 @@ def main():
     return df
         
 if __name__ == "__main__":
-    df_arxiv = main()
-    df_arxiv.to_csv('arxiv_articles.csv', index=False)
+    dataset = main()
+    dataset.to_csv('arxiv_articles.csv', index=False)
     print("Dataset saved to 'arxiv_articles.csv'.")
-    print(df_arxiv.head())
+    print(dataset.head())
