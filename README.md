@@ -10,9 +10,13 @@ Le modèle sur le quel ce base ce travail est le modèle Mixtral sur la tache g�
 
 Installer les dépendances requises : pip install -r requirements.txt
 
-Dépendances: Le projet nécessite plusieurs bibliothèques, tels que:
+# Dépendances: 
 
-Transformers et PEFT essentielles pour l'utilisation du modèle de langage large Datasets pour le chargement des données depuis HF BeautifulSoup4 pour le scrapping
+Le projet nécessite plusieurs bibliothèques, tels que:
+
+Transformers et PEFT essentielles pour l'utilisation du modèle de langage large.
+Datasets pour le chargement des données depuis HF.
+BeautifulSoup4 pour le scrapping
 
 Voir requirements.txt pour la liste complète.
 
