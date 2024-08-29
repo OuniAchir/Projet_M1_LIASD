@@ -26,7 +26,7 @@ inférence.py : Réalise l'inférence du modèle.
 scrapping_PMC.py et Scrapping_ArXiv.py : Scripts pour scraper les articles de PMC pour des données médicales et ArXiv pour des pub scientifiques sur les LLM.
 Evaluation.py : Un exemple de scriptis sur l'évaluation d'une réponse par rapport à des données de références.
 Combined_DataFrame.py : Fusionne et gère les données de diverses sources.
-Load_Data.py : Charge les données collectées (pour le traitement et l'analyse.
+Load_Data.py : Charge les données collectées (All_collected_data.xlsx) pour le traitement et l'analyse.
 
 Utilisation
 
