@@ -1,48 +1,47 @@
-from sklearn.metrics.pairwise import cosine_similarity
-from nltk.translate.bleu_score import sentence_bleu
-from rouge import Rouge
 import numpy as np
-from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics import jaccard_score
+from sklearn.feature_extraction.text import CountVectorizer
+from nltk.translate.bleu_score import sentence_bleu
+from nltk.translate.meteor_score import meteor_score
+from nltk.tokenize import word_tokenize
 
-def evaluate_similarity(generated_responses, reference_responses):
-    # Initialiser ROUGE
-    rouge = Rouge()
+# Fonction pour calculer la similarité de Jaccard
+def jaccard_similarity(list1, list2):
+    set1 = set(list1)
+    set2 = set(list2)
+    intersection = len(set1.intersection(set2))
+    union = len(set1.union(set2))
+    return intersection / union
 
-    # Vectorize the text data using TF-IDF
-    vectorizer = TfidfVectorizer()
-    all_responses = generated_responses + reference_responses
-    vectorizer.fit(all_responses)
-    generated_vectors = vectorizer.transform(generated_responses)
-    reference_vectors = vectorizer.transform(reference_responses)
+# Flatten reference_answers to a list of strings
+# Assuming each sublist in reference_answers contains a single string
+# reference_answers_flat = [item[0] for item in reference_answers]
 
-    # Calculer la similarité cosinus pour chaque paire
-    cosine_similarities = []
-    for i in range(len(generated_responses)):
-        similarity = cosine_similarity(generated_vectors[i], reference_vectors[i])[0][0]
-        cosine_similarities.append(similarity)
-        print(f"Similarité Cosinus pour la paire {i+1} :", similarity) # Affiche chaque similarité
+# Calculer la similarité de Jaccard
+jaccard_similarities = [jaccard_similarity(reference.split(), generated.split()) for reference, generated in zip(answers, generated_responses)]
+average_jaccard_similarity = np.mean(jaccard_similarities)
+print("Similarité de Jaccard Moyenne :", average_jaccard_similarity)
 
-    # Calculer BLEU pour chaque paire
-    bleu_scores = []
-    for i, (generated_response, reference_response) in enumerate(zip(generated_responses, reference_responses)):
-        bleu_score = sentence_bleu([reference_response.split()], generated_response.split())
-        bleu_scores.append(bleu_score)
-        print(f"BLEU pour la paire {i+1} :", bleu_score) # Affiche chaque score BLEU
+# Fonction pour calculer la similarité cosinus entre des textes
+def cosine_similarity_texts(text1, text2):
+    vectorizer = CountVectorizer().fit_transform([text1, text2])
+    vectors = vectorizer.toarray()
+    cosine_sim = np.dot(vectors[0], vectors[1]) / (np.linalg.norm(vectors[0]) * np.linalg.norm(vectors[1]))
+    return cosine_sim
 
-    # Calculer ROUGE-N (ROUGE-1, ROUGE-2, ROUGE-L) pour chaque paire
-    for i, (generated_response, reference_response) in enumerate(zip(generated_responses, reference_responses)):
-        rouge_scores = rouge.get_scores(generated_response, reference_response)
-        rouge_1 = rouge_scores[0]['rouge-1']['f']
-        rouge_2 = rouge_scores[0]['rouge-2']['f']
-        rouge_l = rouge_scores[0]['rouge-l']['f']
-        print(f"ROUGE Scores pour la paire {i+1}:")
-        print(f"ROUGE-1 (F1) :", rouge_1)
-        print(f"ROUGE-2 (F1) :", rouge_2)
-        print(f"ROUGE-L (F1) :", rouge_l)
 
 # Exemple d'utilisation
 if __name__ == "__main__":
-    generated_responses = ["example generated response 1"]
-    reference_responses = ["example generated response 1"]
 
-    evaluate_similarity(generated_responses, reference_responses)
+answers = ["There is currently no cure for fibromyalgia, but treatment options can help manage symptoms. Treatments may include: Medications: These can help reduce pain and improve sleep. Common medications include pain relievers, antidepressants, and anti-seizure drugs. Therapies: Physical therapy can help improve strength and flexibility, while occupational therapy can help make adjustments to work or home environments. Counseling can also be beneficial. Pain Management Clinics: These clinics offer a range of services to help manage pain, including medications, physical therapy, and counseling. Multidisciplinary Pain Management Programs: These programs combine various therapies to help manage pain and improve quality of life. Self-management techniques are crucial for improving outcomes in fibromyalgia. These techniques include: Exercise: Regular physical activity can help reduce pain and improve mood. Activities like walking, swimming, and yoga are beneficial.Healthy Eating: A balanced diet can help manage symptoms and improve overall health. Sleep Hygiene: Good sleep habits can help improve sleep quality and reduce fatigue. Stress Management: Techniques like deep breathing, meditation, and mindfulness can help manage stress, which can exacerbate symptoms. Complementary Treatments: Some patients find relief with acupuncture, massage therapy, or chiropractic care."]
+generated_responses = ["The context information provided does mention various treatment options for fibromyalgia and their roles in providing a comprehensive management plan for patients. Physical therapies such as exercise, acupuncture, and heat therapy are mentioned as ways to manage pain and improve mobility. Psychological therapies such as cognitive behavioral therapy (CBT) and mindfulness are also mentioned as helpful in addressing the emotional impact of fibromyalgia. Drug treatments are also discussed, including their benefits and potential side effects.Self-management techniques are also highlighted as important in improving patient outcomes. These include learning about fibromyalgia, finding support groups, encouraging family and friends to learn about the condition, finding ways to talk about feelings, practicing good sleep hygiene, pacing activities, and managing stress.Therefore, the context information does provide an answer to the question about treatment options and self-management techniques for fibromyalgia."]
+
+# Calculer la similarité cosinus
+cosine_similarities = [cosine_similarity_texts(reference, generated) for reference, generated in zip(answers, generated_responses)] # Use the flattened list here as well
+average_cosine_similarity = np.mean(cosine_similarities)
+print("Similarité Cosinus Moyenne :", average_cosine_similarity)
+
+# Calculer BLEU
+bleu_scores = [sentence_bleu([reference.split()], generated.split()) for generated, reference in zip(answers, generated_responses)] # Use the flattened list here as well
+average_bleu_score = np.mean(bleu_scores)
+print("BLEU Moyen :", average_bleu_score)
