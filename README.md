@@ -3,7 +3,7 @@
 
 Les modèles de langage ce sont des modèles d’IA ou des modèles de fondation conçus pour comprendre et générer le langage naturel, ils peuvent assuré plusieurs taches, la génération de textes, d’images, de vocaux, la traduction, etc. 
 
-Ils sont basés sur de vastes ensembles de données et le plus connu est sans doute ChatGPT de OpenAI. Toutefois, il en existe de nombreux autres comme BERT de Google, Lla- ma de Meta, BLOOM de Hugging Face, Falcon de Technology Innovation Institute et Mixtral de Mistral AI.
+Ils sont basés sur de vastes ensembles de données et le plus connu est sans doute ChatGPT de OpenAI. Toutefois, il en existe de nombreux autres comme BERT de Google, Llama de Meta, BLOOM de Hugging Face, Falcon de Technology Innovation Institute et Mixtral de Mistral AI.
 
 
 Le modèle sur le quel ce base ce travail est le modèle Mixtral sur la tache génération de textes pour des questions spécialisées.
@@ -32,7 +32,7 @@ inférence.py : Réalise l'inférence du modèle.
 
 scrapping_PMC.py et Scrapping_ArXiv.py : Scripts pour scraper les articles de PMC pour des données médicales et ArXiv pour des pub scientifiques sur les LLM.
 
-Evaluation.py : Un exemple de scriptis sur l'évaluation d'une réponse par rapport à des données de références. 
+Evaluation.py : Un exemple de scriptis sur l'évaluation d'une réponse par rapport à des données de test. 
 
 Combined_DataFrame.py : Fusionne et gère les données de diverses sources. 
 
