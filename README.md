@@ -32,7 +32,7 @@ inférence.py : Réalise l'inférence du modèle.
 
 scrapping_PMC.py et Scrapping_ArXiv.py : Scripts pour scraper les articles de PMC pour des données médicales et ArXiv pour des pub scientifiques sur les LLM.
 
-Evaluation.py : Un exemple de scriptis sur l'évaluation d'une réponse par rapport à des données de test. 
+Evaluation.py : Un exemple de scriptis sur l'évaluation d'une réponse par rapport à une réponse correcte. 
 
 Combined_DataFrame.py : Fusionne et gère les données de diverses sources. 
 
