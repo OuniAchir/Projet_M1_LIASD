@@ -13,9 +13,6 @@ def jaccard_similarity(list1, list2):
     union = len(set1.union(set2))
     return intersection / union
 
-# Flatten reference_answers to a list of strings
-# Assuming each sublist in reference_answers contains a single string
-# reference_answers_flat = [item[0] for item in reference_answers]
 
 # Calculer la similarité de Jaccard
 jaccard_similarities = [jaccard_similarity(reference.split(), generated.split()) for reference, generated in zip(answers, generated_responses)]
@@ -37,7 +34,7 @@ answers = ["There is currently no cure for fibromyalgia, but treatment options c
 generated_responses = ["The context information provided does mention various treatment options for fibromyalgia and their roles in providing a comprehensive management plan for patients. Physical therapies such as exercise, acupuncture, and heat therapy are mentioned as ways to manage pain and improve mobility. Psychological therapies such as cognitive behavioral therapy (CBT) and mindfulness are also mentioned as helpful in addressing the emotional impact of fibromyalgia. Drug treatments are also discussed, including their benefits and potential side effects.Self-management techniques are also highlighted as important in improving patient outcomes. These include learning about fibromyalgia, finding support groups, encouraging family and friends to learn about the condition, finding ways to talk about feelings, practicing good sleep hygiene, pacing activities, and managing stress.Therefore, the context information does provide an answer to the question about treatment options and self-management techniques for fibromyalgia."]
 
 # Calculer la similarité cosinus
-cosine_similarities = [cosine_similarity_texts(reference, generated) for reference, generated in zip(answers, generated_responses)] # Use the flattened list here as well
+cosine_similarities = [cosine_similarity_texts(reference, generated) for reference, generated in zip(answers, generated_responses)] 
 average_cosine_similarity = np.mean(cosine_similarities)
 print("Similarité Cosinus Moyenne :", average_cosine_similarity)
 
