@@ -2,7 +2,7 @@ from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
 from peft import LoraConfig, PeftModel, prepare_model_for_kbit_training, get_peft_model
 import os,torch
 import logging
-from setup_model import setup_model_and_tokenizer
+from load_model import setup_model_and_tokenizer
 
 def print_trainable_parameters(model):
     """
