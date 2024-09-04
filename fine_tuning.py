@@ -8,7 +8,7 @@ from peft import LoraConfig, get_peft_model, prepare_model_for_kbit_training
 from datasets import load_dataset
 import torch
 from google.colab import drive
-from setup_model import setup_model_and_tokenizer
+from load_model import setup_model_and_tokenizer
 from preprocessing import dataset as dataset
 
 def train_model(model, tokenizer, dataset):
